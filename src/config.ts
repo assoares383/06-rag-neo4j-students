@@ -1,0 +1,33 @@
+export const config = {
+  apiKey: process.env.OPENROUTER_API_KEY!,
+  httpReferer: '',
+  xTitle: 'IA Devs - Sales Analytics Reporter',
+  models: process.env.OPENROUTER_MODELS
+    ?.split(',')
+    .map((model) => model.trim())
+    .filter(Boolean)
+    .slice(0, 3) ?? [
+      'google/gemma-4-31b-it:free',
+      'google/gemma-4-26b-a4b-it:free',
+      'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free',
+    ],
+  provider: {
+    sort: {
+      by: 'throughput', // Route to model with highest throughput (fastest response)
+      partition: 'none',
+    },
+  },
+  temperature: 0.7,
+  modelTimeout: 120_000,
+  modelMaxRetries: 1,
+  neo4j: {
+    uri: "neo4j://localhost:7687",
+    username: "neo4j",
+    password: "password",
+  },
+  maxCorrectionAttempts: 1,
+  maxSubQuestions: 3,
+};
+
+
+export default config
